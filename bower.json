@@ -1,9 +1,0 @@
-{
-  "name": "ng-tooltip",
-  "version": "0.0.1",
-  "license": "MIT",
-  "dependencies": {
-    "angularjs": "~1.4.5",
-    "jquery": "~2.1.4"
-  }
-}
