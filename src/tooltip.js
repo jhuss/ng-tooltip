@@ -47,10 +47,11 @@ module.directive('ngTooltip', [
                     template: attrs.ngTooltipTemplate || defaults.template,
                     identifier: attrs.ngTooltipIdentifier || defaults.identifier,
                     trigger: attrs.ngTooltipTrigger || defaults.trigger,
+                    followPointer: toBoolean(attrs.ngTooltipFollowPointer) || defaults.followPointer,
                     delay: attrs.ngTooltipDelay || defaults.delay,
                     timeout: attrs.ngTooltipTimeout || defaults.timeout,
                     onClose: attrs.ngTooltipOnClose || defaults.onClose,
-                    onOpen: attrs.ngTooltiponOpen || defaults.onOpen
+                    onOpen: attrs.ngTooltipOnOpen || defaults.onOpen
                 };
 
                 // check if container exist
@@ -70,10 +71,12 @@ module.directive('ngTooltip', [
 
                 // tooltip following mouse pointer
                 element.mousemove(function(event) {
-                    $tooltip.css({
-                        left:  event.pageX,
-                        top:   event.pageY
-                    });
+                    if (options.followPointer === true) {
+                        $tooltip.css({
+                            left:  event.pageX,
+                            top:   event.pageY
+                        });
+                    }
                 });
 
                 // element trigger of tooltip
@@ -90,6 +93,17 @@ module.directive('ngTooltip', [
                     unregisterTooltip();
                 });
 
+
+                // option boolean
+                function toBoolean(value) {
+                    if (value && value.length !== 0) {
+                        var v = ("" + value).toLowerCase();
+                        value = (v == 'true');
+                    } else {
+                        value = false;
+                    }
+                    return value;
+                }
 
                 // event for tooltip
                 function addEventListeners() {
@@ -201,6 +215,10 @@ module.directive('ngTooltip', [
 
                             $tooltip.isOpen = true;
                             $tooltip.css('display', 'block');
+                            $tooltip.css({
+                                left:  event.pageX,
+                                top:   event.pageY
+                            });
 
                             addEventListeners();
 
@@ -229,7 +247,8 @@ function ngTooltipProvider() {
         template: '',
         identifier: 'ng-tooltip',
         trigger: 'mouseenter',
-        delay: 0,
+        followPointer: 'false',
+        delay: 0.5,
         timeout: 0,
         onClose: angular.noop,
         onOpen: angular.noop
