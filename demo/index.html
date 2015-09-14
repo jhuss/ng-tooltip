@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <title>MyTooltip</title>
     <style>
-        #detail {
+        #tooltip-container {
             background-color: cornflowerblue;
-            position: absolute;
         }
     </style>
 </head>
@@ -15,7 +14,7 @@
     <div ng-repeat="item in list">
         <span ng-tooltip
               ng-tooltip-template="tpl-tooltip.html"
-              ng-tooltip-container="#detail">{{item.name}}: mouse hover me!</span>
+              >{{item.name}}: mouse hover me!</span>
         <p></p>
     </div>
     <div id="detail"></div>

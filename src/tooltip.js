@@ -34,6 +34,7 @@ module.directive('ngTooltip', [
             restrict: 'A',
             scope: true,
             link: function(scope, element, attrs) {
+                var $container;
                 var $tooltip;
                 var unregisterTooltip;
                 var hider;
@@ -52,8 +53,20 @@ module.directive('ngTooltip', [
                     onOpen: attrs.ngTooltiponOpen || defaults.onOpen
                 };
 
+                // check if container exist
+                $container = $document.find('#' + options.container);
+                if (!$container.length) {
+                    var body = $document.find('body');
+                    $container = angular.element('<div>');
+                    $container.attr('id', options.container);
+                    body.append($container);
+                }
+
                 // tooltip container
-                $tooltip = angular.element(options.container);
+                $container.css({
+                    position: 'absolute'
+                });
+                $tooltip = angular.element($container);
 
                 // tooltip following mouse pointer
                 element.mousemove(function(event) {
@@ -212,7 +225,7 @@ module.directive('ngTooltip', [
  */
 function ngTooltipProvider() {
     var defaultOptions = {
-        container: 'body',
+        container: 'tooltip-container',
         template: '',
         identifier: 'ng-tooltip',
         trigger: 'mouseenter',
