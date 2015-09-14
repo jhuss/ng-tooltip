@@ -1,4 +1,6 @@
-var app = angular.module('mytooltip', []);
+var app = angular.module('mytooltip', [
+    'ngTooltip'
+]);
 
 app.controller('MainCtrl', function($scope) {
     $scope.list = [
@@ -6,9 +8,4 @@ app.controller('MainCtrl', function($scope) {
         { name: "Item2", detail: "content of item 2" },
         { name: "Item3", detail: "content of item 3" }
     ];
-
-    $scope.domElement = function( item, index ) {
-        $scope.detailItem = item;
-        angular.element('#detail').append( angular.element('#detailCont') );
-    };
 });
