@@ -7,19 +7,15 @@
 <body ng-controller="MainCtrl">
 
     <div ng-repeat="item in list">
-        <span ng-click="domElement( item, $index )">{{item.name}}: click me!</span>
+        <span ng-tooltip
+              ng-tooltip-template="tpl-tooltip.html"
+              ng-tooltip-container="#detail">{{item.name}}: mouse hover me!</span>
     </div>
     <div id="detail"></div>
 
-    <div ng-show="never">
-        <div id="detailCont">
-            dom:
-            {{detailItem.detail}}
-        </div>
-    </div>
-
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/angularjs/angular.min.js"></script>
+    <script src="../src/tooltip.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
