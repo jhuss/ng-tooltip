@@ -30,6 +30,7 @@ module.directive('ngTooltip', [
             restrict: 'A',
             scope: true,
             link: function(scope, element, attrs) {
+                var $tooltip;
                 var defaults = $ngTooltip.getDefaultOptions();
                 var options = {
                     container: attrs.ngTooltipContainer || defaults.container,
@@ -45,16 +46,27 @@ module.directive('ngTooltip', [
                     return $templateCache.get(template) || $http.get(template, { cache : true });
                 }
 
+                $tooltip = angular.element(options.container);
+
                 element
                     .on('mouseout', hide)
                     .on('mouseover', show)
                 ;
 
+                element.mousemove(function(event) {
+                    $tooltip.css({
+                        left:  event.pageX,
+                        top:   event.pageY
+                    });
+                });
+
+
+                // show-hide
                 function hide() {
                     console.log('hide');
                 }
 
-                function show() {
+                function show(event) {
                     $q.when(loadTemplate(options.template))
                         .then(function(template) {
 
@@ -65,9 +77,8 @@ module.directive('ngTooltip', [
                             }
 
                             //tooltip
-                            var tooltip = angular.element(options.container);
-                            tooltip.html( template );
-                            $compile(tooltip)(scope);
+                            $tooltip.html( template );
+                            $compile($tooltip)(scope);
                         });
                 }
             }
